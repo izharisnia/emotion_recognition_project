@@ -14,9 +14,8 @@ soundfile>=0.12
 pydub>=0.25
 pywavelets>=1.5
 numba>=0.61
+tensorflow==2.15.0
 
-# TensorFlow (CPU version)
-tensorflow>=2.15,<2.20
 
 # Utils & tests
 requests>=2.28
