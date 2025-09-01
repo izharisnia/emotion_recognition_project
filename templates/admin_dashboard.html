@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">Admin Snapshot</h2>
+<div class="grid md:grid-cols-3 gap-6">
+  <div class="card-soft bg-white p-5">
+    <div class="text-slate-500 text-sm">Users</div>
+    <div class="text-3xl font-bold">{{ stats.users }}</div>
+  </div>
+  <div class="card-soft bg-white p-5">
+    <div class="text-slate-500 text-sm">Recipes</div>
+    <div class="text-3xl font-bold">{{ stats.recipes }}</div>
+  </div>
+  <div class="card-soft bg-white p-5">
+    <div class="text-slate-500 text-sm">History entries</div>
+    <div class="text-3xl font-bold">{{ stats.history }}</div>
+  </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mt-6">
+  <div class="card-soft bg-white p-5">
+    <div class="text-slate-500 text-sm">Feedback</div>
+    <div class="mt-2">👍 {{ stats.thumbs_up }} &nbsp; | &nbsp; 👎 {{ stats.thumbs_down }}</div>
+  </div>
+  <div class="card-soft bg-white p-5">
+    <div class="text-slate-500 text-sm mb-2">Top moods</div>
+    <ul class="space-y-1">
+      {% for r in stats.top_moods %}
+      <li class="flex justify-between">
+        <span class="capitalize">{{ r.mood }}</span>
+        <span class="font-semibold">{{ r.c }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

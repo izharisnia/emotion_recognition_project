@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="grid md:grid-cols-2 gap-8 items-center">
+  <div>
+    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+      Cook what <span class="text-orange-500">fits your mood</span>.
+    </h1>
+    <p class="mt-4 text-slate-600">
+      Speak a short line about how you feel. We detect your emotion and suggest a recipe — Recipely vibes with responsive UI.
+    </p>
+
+    <div class="card-soft bg-white p-5 mt-6">
+      <div class="flex flex-col gap-3">
+        <textarea id="transcriptBox" rows="3" placeholder="Or type a sentence here…"
+                  class="w-full border rounded-xl p-3"></textarea>
+        <div class="flex gap-3">
+          <!-- Replaced button text with the microphone icon -->
+          <button id="recBtn" class="px-4 py-2 rounded-xl bg-slate-900 text-white flex items-center gap-2">
+            Start Recording
+          </button>
+          <button id="analyzeBtn" class="px-4 py-2 rounded-xl btn-accent">Generate My Recipe</button>
+        </div>
+        <div id="notification" class="mt-3 p-2 text-sm rounded-xl"></div>
+        <div id="resultWrap" class="mt-6"></div>
+        <p class="text-sm text-slate-500">Try: “I’m stressed after a long day”, “I’m super excited!”</p>
+      </div>
+    </div>
+
+    <div id="resultWrap"></div>
+  </div>
+
+  <div class="hidden md:block">
+    <!-- Added a creative motto to the empty orange box -->
+    <div class="h-[28rem] rounded-[28px] brand-grad card-soft flex items-center justify-center p-8 text-white text-center">
+      <h3 class="text-2xl font-bold leading-snug">
+        Your kitchen, your mood.<br>
+        Find the perfect dish for your emotional recipe.<br><br>
+        Speak a short line about how you feel. We detect your emotion and suggest a recipe — Recipely vibes with responsive UI.
+      </h3>
+    </div>
+    <div class="mt-4 text-slate-600">Soft shadows, rounded corners, warm accents.</div>
+  </div>
+</section>
+<script src="{{ url_for('static', filename='js/recorder.js') }}"></script>
+{% endblock %}

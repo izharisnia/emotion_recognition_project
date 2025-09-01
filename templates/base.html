@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{ config.APP_NAME if config else "EmoRecipe" }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="min-h-screen">
+  <header class="bg-white sticky top-0 z-40 border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2">
+        <!-- Replaced placeholder with logo icon -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" class="w-9 h-9" alt="EmoRecipe Logo">
+        <span class="font-extrabold text-lg">Emo<span class="text-orange-500">Recipe</span></span>
+      </a>
+      <nav class="flex items-center gap-3">
+        <a href="/" class="px-3 py-1 nav-pill hover:bg-orange-50">Home</a>
+        
+        <!-- Show Dashboard link only if logged in -->
+        {% if session.get('uid') %}
+          <a href="/dashboard" class="px-3 py-1 nav-pill hover:bg-orange-50">Dashboard</a>
+        {% endif %}
+
+        <!-- Show Admin link only for the admin user -->
+        {% if session.get('email') == 'admin@example.com' %}
+          <a href="/admin" class="px-3 py-1 nav-pill hover:bg-orange-50">Admin</a>
+        {% endif %}
+
+        {% if session.get('uid') %}
+          <a href="/logout" class="px-4 py-2 rounded-xl bg-slate-900 text-white">Logout</a>
+        {% else %}
+          <a href="/login" class="px-4 py-2 rounded-xl bg-slate-900 text-white">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="space-y-2">
+          {% for cat, msg in messages %}
+            <div class="p-3 rounded-xl text-sm {{ 'bg-green-100 text-green-800' if cat=='success' else 'bg-red-100 text-red-800' }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="py-10 text-center text-slate-500" style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 10px 0;">
+    <div class="text-sm">© 2025 EmoRecipe · Mood-aware food suggestions</div>
+  </footer>
+</body>
+</html>

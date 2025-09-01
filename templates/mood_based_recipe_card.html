@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid md:grid-cols-3 gap-8">
+  <div class="md:col-span-2 card-soft bg-white p-6">
+    <div class="text-sm text-slate-500">Detected mood</div>
+    <h2 class="text-3xl font-bold capitalize">{{ mood }}</h2>
+
+    <div class="mt-6 flex flex-col md:flex-row gap-6">
+      {% if recipe.image_url %}
+        <img src="{{ recipe.image_url }}" class="w-full md:w-64 h-64 object-cover rounded-2xl" alt="">
+      {% endif %}
+      <div>
+        <h3 class="text-2xl font-semibold">{{ recipe.title }}</h3>
+        <p class="text-slate-600 mt-2">{{ recipe.description }}</p>
+      </div>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h4 class="font-semibold mb-2">Ingredients</h4>
+        <ul class="space-y-1 text-slate-700">
+          {% for x in recipe.ingredients %}
+          <li>• {{ x }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Steps</h4>
+        <ol class="list-decimal list-inside space-y-1 text-slate-700">
+          {% for s in recipe.steps %}
+          <li>{{ s }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center justify-between">
+      <span class="text-slate-600">Calories: <strong>{{ recipe.calories }}</strong></span>
+      <div class="flex gap-2">
+        <button class="px-3 py-2 rounded-xl bg-green-500 text-white"
+                onclick="sendFeedback({{ recipe.id }}, '{{ mood }}','up')">👍</button>
+        <button class="px-3 py-2 rounded-xl bg-red-500 text-white"
+                onclick="sendFeedback({{ recipe.id }}, '{{ mood }}','down')">👎</button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card-soft bg-white p-6">
+    <h4 class="font-semibold mb-3">More like this</h4>
+    <p class="text-sm text-slate-600">Open your dashboard to explore similar recipes.</p>
+    <a href="/dashboard" class="inline-block mt-4 btn-accent px-4 py-2 rounded-xl">Open Dashboard</a>
+  </aside>
+</div>
+
+<script>
+async function sendFeedback(id, mood, thumb){
+  const r = await fetch("/feedback", {
+    method:"POST", headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ recipe_id:id, mood, thumb })
+  });
+  if((await r.json()).ok){ alert("Thanks for the feedback!"); }
+}
+</script>
+{% endblock %}
